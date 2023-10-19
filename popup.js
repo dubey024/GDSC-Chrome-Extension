@@ -1,38 +1,38 @@
 // Import a function to get the URL of the active tab from a separate file.
 import { getActiveTabURL } from "./utils.js";
 
-// adding a new bookmark row to the popup
-const addNewBookmark = (bookmark, bookmark) => {
-     // Create elements for the bookmark title and control buttons.
-    const bookmarkTitleElement = document.createElement("div");
-    const controlsElement = document.createElement("div");
-    const newbookmarkElement = document.createElement("div");
+// Function to add a new bookmark to the list.
+const addNewBookmark = (bookmarks, bookmark) => {
+  // Create elements for the bookmark title and control buttons.
+  const bookmarkTitleElement = document.createElement("div");
+  const controlsElement = document.createElement("div");
+  const newBookmarkElement = document.createElement("div");
 
- // Set the bookmark title and CSS class for styling.
-        bookmarkTitleElement.textContent = bookmark.desc;
-        bookmarkTitleElement.className = "bookmark-title";
-        controlsElement.className = "bookmark-controls";
+  // Set the bookmark title and CSS class for styling.
+  bookmarkTitleElement.textContent = bookmark.desc;
+  bookmarkTitleElement.className = "bookmark-title";
+  controlsElement.className = "bookmark-controls";
 
-     // Create and set attributes for control buttons (play and delete).
+  // Create and set attributes for control buttons (play and delete).
   setBookmarkAttributes("play", onPlay, controlsElement);
   setBookmarkAttributes("delete", onDelete, controlsElement);
 
   // Set attributes and structure for the new bookmark element.
-        newbookmarkElement.id = "bookmark-" + bookmark.time;
-        newbookmarkElement.className = "bookmark";
-        newbookmarkElement.setAttribute("timestamp", bookmark.time);
+  newBookmarkElement.id = "bookmark-" + bookmark.time;
+  newBookmarkElement.className = "bookmark";
+  newBookmarkElement.setAttribute("timestamp", bookmark.time);
 
   // Append the bookmark title and control buttons to the bookmark element.
-  newbookmarkElement.appendChild(bookmarkTitleElement);
-  newbookmarkElement.appendChild(controlsElement);
+  newBookmarkElement.appendChild(bookmarkTitleElement);
+  newBookmarkElement.appendChild(controlsElement);
 
   // Add the new bookmark element to the list of bookmarks.
-   bookmark.appendChild(newbookmarkElement);
+  bookmarks.appendChild(newBookmarkElement);
 };
 
 // Function to display the list of bookmarks.
 const viewBookmarks = (currentBookmarks = []) => {
-    const bookmarksElement = document.getElementById("bookmarks");
+  const bookmarksElement = document.getElementById("bookmarks");
   bookmarksElement.innerHTML = "";
 
   // Check if there are bookmarks to display.
@@ -51,7 +51,7 @@ const viewBookmarks = (currentBookmarks = []) => {
 
 // Function called when the "play" button is clicked.
 const onPlay = async (e) => {
-     // Get the timestamp associated with the clicked bookmark.
+  // Get the timestamp associated with the clicked bookmark.
   const bookmarkTime = e.target.parentNode.parentNode.getAttribute("timestamp");
   // Get the URL of the active tab in the browser.
   const activeTab = await getActiveTabURL();
@@ -64,7 +64,7 @@ const onPlay = async (e) => {
 
 // Function called when the "delete" button is clicked.
 const onDelete = async (e) => {
-     // Get the URL of the active tab in the browser.
+  // Get the URL of the active tab in the browser.
   const activeTab = await getActiveTabURL();
   // Get the timestamp associated with the clicked bookmark.
   const bookmarkTime = e.target.parentNode.parentNode.getAttribute("timestamp");
@@ -81,8 +81,8 @@ const onDelete = async (e) => {
 };
 
 // Function to set attributes for control elements (play and delete buttons).
-const setBookmarkAttributes =  (src, eventListener, controlParentElement) => {
-     // Create an image element for the control button.
+const setBookmarkAttributes = (src, eventListener, controlParentElement) => {
+  // Create an image element for the control button.
   const controlElement = document.createElement("img");
   // Set the image source, title, and click event listener.
   controlElement.src = "assets/" + src + ".png";
@@ -93,8 +93,8 @@ const setBookmarkAttributes =  (src, eventListener, controlParentElement) => {
 };
 
 // Event listener for when the HTML document is fully loaded.
-document.addEventListener("DOMContentLoaded", async() => {
-    // Get the URL of the active tab in the browser.
+document.addEventListener("DOMContentLoaded", async () => {
+  // Get the URL of the active tab in the browser.
   const activeTab = await getActiveTabURL();
   // Extract query parameters from the URL.
   const queryParameters = activeTab.url.split("?")[1];
